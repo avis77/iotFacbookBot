@@ -6,7 +6,8 @@
   "dependencies": {
     "body-parser": "^1.16.0",
     "compression": "^1.6.2",
-    "express": "^3"
+    "express": "^3.14.1",
+	"connect": "^2"
   },
   "devDependencies": {},
   "scripts": {
