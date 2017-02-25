@@ -1,9 +1,8 @@
 var express = require('express'); //express handles routes
-var connect = require('connect');
 var http = require('http'); //need http module to create a server
 var app = express(); //starting express
 app.set('port', process.env.PORT || 3000); //set port to cloud9 specific port or 3000
-app.use(connect.bodyParser()); //body parser used to parse request data
+app.use(bodyParser()); //body parser used to parse request data
 app.use(app.router);
 app.get('/', verificationHandler);
 function verificationHandler(req, res) {
