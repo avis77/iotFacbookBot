@@ -1,41 +1,17 @@
-// basic setup requirements
-var express = require('express');
-var bodyParser = require('body-parser');
-var compress = require('compression');
-
-var app = express();
-
-var renderer = require('./routes/renderer');
-
-app.use(compress());
-app.use(bodyParser.json({limit: '100mb'}));
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use('/', renderer);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+var express = require('express'); //express handles routes
+var http = require('http'); //need http module to create a server
+var app = express(); //starting express
+app.set('port', process.env.PORT || 3000); //set port to cloud9 specific port or 3000
+app.use(express.bodyParser()); //body parser used to parse request data
+app.use(app.router);
+app.get('/', verificationHandler);
+function verificationHandler(req, res) {
+  console.log(req);
+  if (req.query['hub.verify_token'] === 'verifycode') {
+    res.send(req.query['hub.challenge']);
+  }
+  res.send('Error, wrong validation token!');
+}
+http.createServer(app).listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + app.get('port'));
 });
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    var html = '<!DOCTYPE html>';
-    html+= '<html>';
-    html+= '  <head>';
-    html+= '    <title></title>';
-    html+= '  </head>';
-    html+= '  <body>';
-    html+= '    <h1>'+err.message+'</h1>';
-    html+= '    <h2>'+err.status+'</h2>';
-    html+= '    <pre>'+err.stack+'</pre>';
-    html+= '  </body>';
-    html+= '</html>';
-    res.send(html);
-}); 
-
-module.exports = app;
