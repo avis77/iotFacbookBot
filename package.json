@@ -4,9 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "body-parser": "^1.16.0",
-    "compression": "^1.6.2",
-    "express": "^4.14.1"
+    "messenger-bot": "^6.1.0",
   },
   "devDependencies": {},
   "scripts": {
