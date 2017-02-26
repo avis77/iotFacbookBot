@@ -1,17 +1,30 @@
-var express = require('express'); //express handles routes
-var http = require('http'); //need http module to create a server
-var app = express(); //starting express
-var bodyParser = require('body-parser');
-app.set('port', process.env.PORT || 8080); //set port to cloud9 specific port or 3000
-app.use(bodyParser.json({limit: '100mb'}));
-app.get('/', verificationHandler);
-function verificationHandler(req, res) {
-  console.log(req);
-  if (req.query['hub.verify_token'] === 'verifycode') {
-    res.send(req.query['hub.challenge']);
-  }
-  res.send('Error, wrong validation token!');
-}
-http.createServer(app).listen(app.get('port'), function() {
-  console.log('Express server listening on port ' + app.get('port'));
-});
+const http = require('http')
+const Bot = require('messenger-bot')
+let port = 3000;
+
+let bot = new Bot({
+  token: 'PAGE_TOKEN',
+  verify: 'VERIFY_TOKEN',
+  app_secret: 'APP_SECRET'
+})
+
+bot.on('error', (err) => {
+  console.log(err.message)
+})
+
+bot.on('message', (payload, reply) => {
+  let text = payload.message.text
+
+  bot.getProfile(payload.sender.id, (err, profile) => {
+    if (err) throw err
+
+    reply({ text }, (err) => {
+      if (err) throw err
+
+      console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
+    })
+  })
+})
+
+http.createServer(bot.middleware()).listen(3000)
+console.log('Echo bot server running at port 3000.')
