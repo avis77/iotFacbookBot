@@ -1,18 +1,26 @@
 {
-  "name": "itoBot",
+  "name": "iotbot",
   "version": "1.0.0",
-  "description": "",
+  "description": "iot bot",
   "main": "app.js",
   "dependencies": {
     "messenger-bot": "^6.1.0"
   },
   "devDependencies": {
-        "messenger-bot": "^6.1.0"
+    "messenger-bot": "^6.1.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "avis",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avis77/iotFacbookBot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/avis77/iotFacbookBot/issues"
+  },
+  "homepage": "https://github.com/avis77/iotFacbookBot#readme"
 }
