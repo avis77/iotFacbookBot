@@ -4,10 +4,10 @@
   "description": "iot bot",
   "main": "app.js",
   "dependencies": {
-    "messenger-bot": "^2.4.0"
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1"
   },
   "devDependencies": {
-    "messenger-bot": "^2.4.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
