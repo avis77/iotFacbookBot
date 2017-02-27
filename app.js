@@ -33,10 +33,4 @@ app.get('/', (req, res) => {
   res.end("Hello World\n");
 });
 
-module.exports = {
-  start: function (p) {
-	const server = app.listen(p || 5000, () => {
-	console.log('Express server listening on port %d in %s mode', server.address().port, app.settings.env);
-   });
-  }
-};
+module.exports = app;
