@@ -1,30 +1,42 @@
-const http = require('http')
-const Bot = require('messenger-bot')
-let port = 3000;
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-let bot = new Bot({
-  token: 'PAGE_TOKEN',
-  verify: 'VERIFY_TOKEN',
-  app_secret: 'APP_SECRET'
-})
+/* For Facebook Validation */
+app.get('/webhook', (req, res) => {
+  if (req.query['hub.mode'] && req.query['hub.verify_token'] === 'tuxedo_cat') {
+    res.status(200).send(req.query['hub.challenge']);
+  } else {
+    res.status(403).end();
+  console.log('got wrong token', req.ip);
+  }
+});
 
-bot.on('error', (err) => {
-  console.log(err.message)
-})
+/* Handling all messenges */
+app.post('/webhook', (req, res) => {
+  console.log(req.body);
+  if (req.body.object === 'page') {
+    req.body.entry.forEach((entry) => {
+      entry.messaging.forEach((event) => {
+        if (event.message && event.message.text) {
+          sendMessage(event);
+        }
+      });
+    });
+    res.status(200).end();
+  }
+});
+app.get('/', (req, res) => {
+  res.writeHead(200, {"Content-Type": "text/plain"});
+  res.end("Hello World\n");
+});
 
-bot.on('message', (payload, reply) => {
-  let text = payload.message.text
-
-  bot.getProfile(payload.sender.id, (err, profile) => {
-    if (err) throw err
-
-    reply({ text }, (err) => {
-      if (err) throw err
-
-      console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
-    })
-  })
-})
-
-http.createServer(bot.middleware()).listen(3000)
-console.log('Echo bot server running at port 3000.')
+module.exports = {
+  start: function (p) {
+	const server = app.listen(p || 5000, () => {
+	console.log('Express server listening on port %d in %s mode', server.address().port, app.settings.env);
+   });
+  }
+};
