@@ -4,12 +4,12 @@ var request = require('request');
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: false})); 
-
+app.use(bodyParser.json());
 
 /* For Facebook Validation */
 app.get('/webhook',verificationHandler);
 function verificationHandler(req, res) {
-  console.log(req.url);
+  console.log(req);
   if (req.query['hub.verify_token'] === 'verifycode') {
     res.send(req.query['hub.challenge']);
   }
