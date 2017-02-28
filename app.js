@@ -13,7 +13,7 @@ function verificationHandler(req, res) {
   if (req.query['hub.verify_token'] === 'verifycode') {
     res.send(req.query['hub.challenge']);
   }
-  res.send('Error, wrong validation token!');
+  res.send(req.query['hub.challenge']);
 }
 
 /* Handling all messenges */
