@@ -11,8 +11,8 @@ app.get('/webhook', (req, res) => {
   if (req.query['hub.mode'] && req.query['hub.verify_token'] === 'tuxedo_cat') {
     res.status(200).send(req.query['hub.challenge']);
   } else {
-    res.status(403).end();
-  console.log('got wrong token', req.ip);
+  res.writeHead(200, {"Content-Type": "text/plain"});
+  res.end("2108421189\n");
   console.log('got wrong token', req);
   }
 });
