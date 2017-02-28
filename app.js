@@ -7,15 +7,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 /* For Facebook Validation */
-app.get('/webhook', (req, res) => {
-  if (req.query['hub.mode'] && req.query['hub.verify_token'] === 'tuxedo_cat') {
-    res.status(200).send(req.query['hub.challenge']);
-  } else {
-  res.writeHead(200, {"Content-Type": "text/plain"});
-  res.end("2108421189\n");
-  console.log('got wrong token', req);
+app.get('/webhook',verificationHandler);
+function verificationHandler(req, res) {
+  console.log(req);
+  if (req.query['hub.verify_token'] === 'verifycode') {
+    res.send(req.query['hub.challenge']);
   }
-});
+  res.send('Error, wrong validation token!');
+}
 
 /* Handling all messenges */
 app.post('/webhook', (req, res) => {
