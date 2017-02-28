@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 var request = require('request');  
 
 const app = express();
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 /* For Facebook Validation */
 app.get('/webhook',verificationHandler);
