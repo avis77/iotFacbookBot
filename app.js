@@ -13,9 +13,7 @@ app.get('/webhook', (req, res) => {
   } else {
     res.status(403).end();
   console.log('got wrong token', req.ip);
-  console.log('got wrong token', req.query['hub.mode']);
-  console.log('got wrong token', req.query['hub.verify_token']);
-  console.log('got wrong token',req.query['hub.challenge']);
+  console.log('got wrong token', req);
   }
 });
 
