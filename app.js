@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /* For Facebook Validation */
 app.get('/webhook',verificationHandler);
 function verificationHandler(req, res) {
-  console.log(req.query);
+  console.log(req.body);
   if (req.query['hub.verify_token'] === 'verifycode') {
     res.send(req.query['hub.challenge']);
   }
