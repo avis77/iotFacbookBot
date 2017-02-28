@@ -9,11 +9,11 @@ app.use(bodyParser.json());
 /* For Facebook Validation */
 app.get('/webhook',verificationHandler);
 function verificationHandler(req, res) {
-  console.log(req);
+  console.log(req.query);
   if (req.query['hub.verify_token'] === 'verifycode') {
     res.send(req.query['hub.challenge']);
   }
-  res.send(req.query['hub.challenge']);
+  res.send("worng value"+req.query['hub.verify_token']);
 }
 
 /* Handling all messenges */
