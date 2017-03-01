@@ -44,7 +44,7 @@ function sendMessage(receiver, data, isText) {
         url: 'https://graph.facebook.com/v2.6/me/messages',
         method: 'POST',
         qs: {
-            access_token: process.env.PROFILE_TOKEN || conf.PROFILE_TOKEN
+            access_token: 'EAAZAl6ql27YQBAPx1pcNefvwuk56UqPeKsakmnzvPvnDiKepdJtzKkNtRXokMpMQ1MqH3HxW0irzd1Tq4Kfevq5IJQH6l7gyim8dRQUIDcPyOOT34V72EB9KGzZAZBYesdyR6Qf0sehqTToZAzjRoHCkZAV6gsZCcsWbFJKEFseQZDZD'
         },
         json: {
             recipient: {id: receiver},
