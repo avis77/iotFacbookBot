@@ -16,7 +16,7 @@ function verificationHandler(req, res) {
 }
 
 /* Handling all messenges */
-app.post('/webhook',, receiveMessage);
+app.post('/webhook', receiveMessage);
 function receiveMessage(req, res, next) {
     var message_instances = req.body.entry[0].messaging;
     message_instances.forEach(function(instance){
