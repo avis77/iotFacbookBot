@@ -9,7 +9,6 @@ app.use(bodyParser.json());
 /* For Facebook Validation */
 app.get('/webhook',verificationHandler);
 function verificationHandler(req, res) {
-  console.log(req.query);
   if (req.query['hub.verify_token'] === 'verifycode') {
     res.send(req.query['hub.challenge']);
   }
@@ -18,17 +17,19 @@ function verificationHandler(req, res) {
 
 /* Handling all messenges */
 app.post('/webhook', (req, res) => {
-  console.log(req.body);
   var msg = "";
   if (req.body.object === 'page') {
 	
     req.body.entry.forEach((entry) => {
       entry.messaging.forEach((event) => {
+		  console.log("event "+event);
         if (event.message && event.message.text) {
-          msg = msg+event.message.text;
+          msg = msg+event.message.text+".";
         }
       });
     });
+	console.log("msg "+msg);
+	
 	res.send(msg);
     res.status(200).end();
   }
