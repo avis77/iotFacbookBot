@@ -41,7 +41,7 @@ function sendMessage(receiver, data, isText) {
     }
 
     request({
-        url: conf.FB_MESSAGE_URL,
+        url: 'https://graph.facebook.com/v2.6/me/messages',
         method: 'POST',
         qs: {
             access_token: process.env.PROFILE_TOKEN || conf.PROFILE_TOKEN
