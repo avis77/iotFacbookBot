@@ -19,14 +19,17 @@ function verificationHandler(req, res) {
 /* Handling all messenges */
 app.post('/webhook', (req, res) => {
   console.log(req.body);
+  var msg = "";
   if (req.body.object === 'page') {
+	
     req.body.entry.forEach((entry) => {
       entry.messaging.forEach((event) => {
         if (event.message && event.message.text) {
-          sendMessage(event);
+          msg = msg+event.message.text;
         }
       });
     });
+	res.send(msg);
     res.status(200).end();
   }
 });
