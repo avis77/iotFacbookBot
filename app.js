@@ -25,13 +25,17 @@ function receiveMessage(req, res, next) {
             var msg_text = instance.message.text;
             if(msg_text == "c"){
               sendMessage(sender, "agent "+sender+" created", true);
-            }
-            if(msg_text.startWith("reg")){
-              sendMessage(sender, "reg to agent "+msg_text.split(" "), true);
-            }
-            if(msg_text.startWith("rem")){
-              sendMessage(sender, "rem from agent "+msg_text.split(" "), true);
-            }
+            }else{
+              if(msg_text.startsWith("reg")){
+                sendMessage(sender, "reg to agent "+msg_text.split(" "), true);
+              }else{
+                if(msg_text.startsWith("rem")){
+                  sendMessage(sender, "rem from agent "+msg_text.split(" "), true);
+                }else{
+                  sendMessage(sender, "only acsept c \\ reg <id> \\ rem <id>", true);
+                }
+              }
+          }
 
         }
     });
