@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-var request = require('request');  
+var request = require('request');
 
 const app = express();
-app.use(bodyParser.urlencoded({extended: false})); 
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 /* For Facebook Validation */
@@ -23,8 +23,16 @@ function receiveMessage(req, res, next) {
         var sender = instance.sender.id;
         if(instance.message && instance.message.text) {
             var msg_text = instance.message.text;
-			console.log(sender +" : "+msg_text);
-            sendMessage(sender, msg_text, true);
+            if(msg_text == "c"){
+              sendMessage(sender, "agent "+sender+" created", true);
+            }
+            if(msg_text.startWith("reg")){
+              sendMessage(sender, "reg to agent "+msg_text.split(" "), true);
+            }
+            if(msg_text.startWith("rem")){
+              sendMessage(sender, "rem from agent "+msg_text.split(" "), true);
+            }
+
         }
     });
     res.sendStatus(200);
@@ -56,8 +64,9 @@ function sendMessage(receiver, data, isText) {
     });
 }
 app.get('/', (req, res) => {
+  sendMessage(req.query['agent'],req.query['msg'],true);
   res.writeHead(200, {"Content-Type": "text/plain"});
-  res.end("Hello World\n");
+  res.end("data sent to listener by agent"+req.query['agent']);
 });
 
 module.exports = app;
