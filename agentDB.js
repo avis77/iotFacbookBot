@@ -12,7 +12,7 @@ function addAgent(onerId,res){
         console.log(row.m+"="+agentId);
         agentId = agentId+1;
         if(isNaN(agentId)){
-          agentId=onerId*10;
+          agentId=1;
         }
         db.run("INSERT INTO agents VALUES ("+agentId+",'"+onerId+"','"+onerId+"')");
         console.log("created agent "+agentId);
