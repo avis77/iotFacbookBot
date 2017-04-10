@@ -8,8 +8,8 @@ function addAgent(onerId,res){
   initDb();
   var agentId = 0;
   db.get("SELECT MAX(agentId) as m FROM agents where ownerId='"+onerId+"'", function(err, row) {
-        agentId = parseInt(row.m);
-        console.log(row.m);
+        agentId = parseLong(row.m);
+        console.log(row.m+"="+agentId);
         agentId = agentId+1;
         if(isNaN(agentId)){
           agentId=onerId*10;
