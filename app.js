@@ -30,6 +30,9 @@ function receiveMessage(req, res, next) {
               if(msg_text == "r"){
                 mdb.remAgent(msg_text.split(" ")[1],sender,sendMessage);
               }else{
+                if(msg_text == "l"){
+                  mdb.getAllMyAgents(sender,sendMessage);
+                }else{
 
               if(msg_text.startsWith("reg")){
                 mdb.RegFolowers(msg_text.split(" ")[1],sender,sendMessage);
@@ -42,7 +45,7 @@ function receiveMessage(req, res, next) {
               }
             }
           }
-
+}
         }
     });
     res.sendStatus(200);

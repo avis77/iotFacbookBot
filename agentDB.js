@@ -7,15 +7,15 @@ function initDb(){
 function addAgent(onerId,res){
   initDb();
   var agentId = 0;
-  db.get("SELECT MAX(agentId) as m FROM agents", function(err, row) {
+  db.get("SELECT MAX(agentId) as m FROM agents where ownerId='"+onerId+"'", function(err, row) {
         agentId = parseInt(row.m);
         console.log(row.m);
         agentId = agentId+1;
         if(isNaN(agentId)){
-          agentId=0;
+          agentId=onerId*10;
         }
-        db.run("INSERT INTO agents VALUES ("+onerId+agentId+",'"+onerId+"','"+onerId+"')");
-        console.log("created agent "+onerId+agentId);
+        db.run("INSERT INTO agents VALUES ("+agentId+",'"+onerId+"','"+onerId+"')");
+        console.log("created agent "+agentId);
         res(onerId,"created agent "+agentId,true);
    });
 }
@@ -23,7 +23,7 @@ function addAgent(onerId,res){
 function remAgent(agentId,onerId,res){
   initDb();
   var agentId = 0;
-  db.run("DELETE FROM agents WHERE agentId ="+onerId+agentId+" and ownerId='"+onerId+"')");
+  db.run("DELETE FROM agents WHERE agentId ="+agentId+" and ownerId='"+onerId+"')");
   res(onerId,"DELETE agent "+agentId,true);
 }
 
@@ -36,10 +36,10 @@ function getAllFolowers(agentId,res){
       var f = "";
       console.log(row.folowers);
       f = row.folowers;
-      res.send("this are agent "+agentId+"folowers "+row.folowers);
+      res.end("this are agent "+agentId+"folowers "+row.folowers);
    });
  }else{
-   res.send("none");
+   res.end("none");
  }
   });
 }
@@ -60,7 +60,7 @@ function RegFolowers(agentId,f,res){
   });
 }
 
-function RemFolowers(agentId,f,sender,res){
+function RemFolowers(agentId,f,res){
   initDb();
   console.log("register "+f+" to "+agentId);
   db.get("SELECT COUNT(folowers) as r FROM agents where agentId="+agentId+"", function(err, row) {
@@ -75,9 +75,15 @@ function RemFolowers(agentId,f,sender,res){
     }
   });
 }
-
+function getAllMyAgents(f,res){
+  initDb();
+  return db.get("SELECT agentId FROM agents where ownerId='"+f+"'", function(err, row) {
+  res(f,"you have agent "+row.agentId);
+  });
+}
 module.exports.addAgent=addAgent;
 module.exports.remAgent=remAgent;
 module.exports.getAllFolowers=getAllFolowers;
 module.exports.RegFolowers=RegFolowers;
 module.exports.RemFolowers=RemFolowers;
+module.exports.getAllMyAgents=getAllMyAgents;
