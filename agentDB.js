@@ -52,10 +52,10 @@ function RegFolowers(agentId,f,res){
       return db.get("SELECT folowers FROM agents where agentId='"+agentId+"'", function(err, row) {
         var fo = row.folowers.replace(";"+f,'');
         db.run("UPDATE agents SET folowers='"+ fo+";"+f +"' WHERE agentId='"+agentId+"'");
-        res(f,"you where add to "+agentId);
+        res(f,"you where add to "+agentId,true);
       });
     }else{
-      res(f,"cannot faind "+agentId);
+      res(f,"cannot faind "+agentId,true);
     }
   });
 }
@@ -68,17 +68,17 @@ function RemFolowers(agentId,f,res){
       return db.get("SELECT folowers FROM agents where agentId='"+agentId+"'", function(err, row) {
         var fo = row.folowers.replace(";"+f,"");
         db.run("UPDATE agents SET folowers='"+ fo +"' WHERE agentId='"+agentId+"'");
-        res(f,"you where remooved from "+agentId);
+        res(f,"you where remooved from "+agentId,true);
       });
     }else{
-      res(f,"cannot faind "+agentId);
+      res(f,"cannot faind "+agentId,true);
     }
   });
 }
 function getAllMyAgents(f,res){
   initDb();
   return db.get("SELECT agentId,ownerId FROM agents ", function(err, row) {
-  res(f,"you have agent "+row.agentId+" "+row.ownerId);
+  res(f,"you have agent "+row.agentId+" "+row.ownerId,true);
   });
 }
 module.exports.addAgent=addAgent;
