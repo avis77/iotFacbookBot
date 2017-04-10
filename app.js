@@ -27,7 +27,7 @@ function receiveMessage(req, res, next) {
             if(msg_text == "c"){
               mdb.addAgent(sender,sendMessage);
             }else{
-              if(msg_text == "r"){
+              if(msg_text.startsWith("r"){
                 mdb.remAgent(msg_text.split(" ")[1],sender,sendMessage);
               }else{
                 if(msg_text == "l"){
