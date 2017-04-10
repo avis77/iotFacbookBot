@@ -77,8 +77,8 @@ function RemFolowers(agentId,f,res){
 }
 function getAllMyAgents(f,res){
   initDb();
-  return db.get("SELECT agentId FROM agents where ownerId='"+f+"'", function(err, row) {
-  res(f,"you have agent "+row.agentId);
+  return db.get("SELECT agentId,ownerId FROM agents ", function(err, row) {
+  res(f,"you have agent "+row.agentId+" "+row.ownerId);
   });
 }
 module.exports.addAgent=addAgent;
