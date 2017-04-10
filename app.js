@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 var request = require('request');
+var mdb = require('./agentDB');
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
@@ -24,17 +25,22 @@ function receiveMessage(req, res, next) {
         if(instance.message && instance.message.text) {
             var msg_text = instance.message.text;
             if(msg_text == "c"){
-              sendMessage(sender, "agent "+sender+" created", true);
+              mdb.addAgent(sender,sendMessage);
             }else{
+              if(msg_text == "r"){
+                mdb.remAgent(msg_text.split(" ")[1],sender,sendMessage);
+              }else{
+
               if(msg_text.startsWith("reg")){
-                sendMessage(sender, "reg to agent "+msg_text.split(" "), true);
+                mdb.RegFolowers(msg_text.split(" ")[1],sender,sendMessage);
               }else{
                 if(msg_text.startsWith("rem")){
-                  sendMessage(sender, "rem from agent "+msg_text.split(" "), true);
+                  mdb.RemFolowers(msg_text.split(" ")[1],sender,sendMessage);
                 }else{
-                  sendMessage(sender, "only acsept c \\ reg <id> \\ rem <id>", true);
+                  sendMessage(sender, "only acsept c \\ r <id> \\ reg <id> \\ rem <id>", true);
                 }
               }
+            }
           }
 
         }
@@ -71,6 +77,11 @@ app.get('/', (req, res) => {
   sendMessage(req.query['agent'],req.query['msg'],true);
   res.writeHead(200, {"Content-Type": "text/plain"});
   res.end("data sent to listener by agent"+req.query['agent']);
+});
+
+app.get('/list', (req, res) => {
+  res.writeHead(200, {"Content-Type": "text/plain"});
+  mdb.getAllFolowers(req.query['agent'],res);
 });
 
 module.exports = app;
