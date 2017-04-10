@@ -81,4 +81,3 @@ module.exports.remAgent=remAgent;
 module.exports.getAllFolowers=getAllFolowers;
 module.exports.RegFolowers=RegFolowers;
 module.exports.RemFolowers=RemFolowers;
-}
