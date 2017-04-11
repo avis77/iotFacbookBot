@@ -97,4 +97,12 @@ app.get('/list', (req, res) => {
     mdb.getAllFolowers(req.query['agent'], res);
 });
 
+app.get('/cleanDb', (req, res) => {
+    res.writeHead(200, {
+        "Content-Type": "text/plain"
+    });
+    mdb.cleanDb();
+    res.end("droped tables");
+});
+
 module.exports = app;
