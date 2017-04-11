@@ -83,7 +83,7 @@ function sendMessage(receiver, data, isText) {
     });
 }
 app.get('/', (req, res) => {
-    sendMessage(req.query['agent'], req.query['msg'], true);
+      mdb.sendAllFolowers(req.query['agent'], req.query['msg'],sendMessage);
     res.writeHead(200, {
         "Content-Type": "text/plain"
     });
