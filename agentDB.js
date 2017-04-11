@@ -26,7 +26,7 @@ function addAgent(onerId,res){
 function remAgent(agentId,onerId,res){
   initDb();
   var agentId = 0;
-  db.run("DELETE FROM agents WHERE agentId ='"+agentId+"' and ownerId='"+onerId+"')");
+  db.run("DELETE FROM agents WHERE agentId ='"+agentId+"' and ownerId='"+onerId+"'");
   res(onerId,"DELETE agent "+agentId,true);
 }
 
