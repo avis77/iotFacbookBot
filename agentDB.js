@@ -17,9 +17,9 @@ function addAgent(onerId,res){
           agentId=1;
         }
         id = ""+onerId+"-"+agentId;
-        db.run("INSERT INTO agents VALUES ('"+agentId+"','"+onerId+"','"+onerId+"')");
+        db.run("INSERT INTO agents VALUES ('"+id+"','"+onerId+"','"+onerId+"')");
         console.log("created agent "+agentId);
-        res(onerId,"created agent "+agentId,true);
+        res(onerId,"created agent "+id,true);
    });
 }
 
@@ -80,7 +80,7 @@ function RemFolowers(agentId,f,res){
 }
 function getAllMyAgents(f,res){
   initDb();
-  return db.get("SELECT agentId,ownerId FROM agents ", function(err, row) {
+  return db.each("SELECT agentId,ownerId FROM agents ", function(err, row) {
   res(f,"you have agent "+row.agentId+" "+row.ownerId,true);
   });
 }
