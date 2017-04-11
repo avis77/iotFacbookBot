@@ -1,7 +1,7 @@
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('mydb.db');
 function initDb(){
-  db.run("CREATE TABLE if not exists agents (agentId TEXT, ownerId TEXT, folowers TEXT)");
+  db.run("CREATE TABLE if not exists agents (counter LONG, agentId TEXT, ownerId TEXT, folowers TEXT)");
 }
 function cleanDb(){
   db.run("drop TABLE agents");
@@ -9,7 +9,7 @@ function cleanDb(){
 function addAgent(onerId,res){
   initDb();
   var agentId = 0;
-  db.get("SELECT count(1) as m FROM agents where ownerId='"+onerId+"'", function(err, row) {
+  db.get("SELECT max(counter) as m FROM agents where ownerId='"+onerId+"'", function(err, row) {
         agentId = parseInt(row.m);
         console.log(row.m+"="+agentId);
         agentId = agentId+1;
@@ -17,7 +17,7 @@ function addAgent(onerId,res){
           agentId=1;
         }
         id = ""+onerId+"-"+agentId;
-        db.run("INSERT INTO agents VALUES ('"+id+"','"+onerId+"','"+onerId+"')");
+        db.run("INSERT INTO agents VALUES ("+agentId+",'"+id+"','"+onerId+"','"+onerId+"')");
         console.log("created agent "+agentId);
         res(onerId,"created agent "+id,true);
    });
